@@ -1,2 +1,3 @@
 # osvit-practice-project
-First practice project
+
+Js practice project
