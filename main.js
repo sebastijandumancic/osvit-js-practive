@@ -47,17 +47,31 @@ function filterTodoCards() {
 }
 
 function renderToDoItem(todo) {
-  const { title, completed, date } = todo;
+  const { id, title, completed, date } = todo;
   const formatDate = () => {
     const dateObject = new Date(date);
     return `${dateObject.getDate()}.${dateObject.getMonth() +
       1}.${dateObject.getFullYear()}`;
   };
 
-  return `<div class="${completed ? 'item item-finished' : 'item'}">
+  return `<div data-moja-vrijednost="${id}" onclick="setCompletedStatus(event)" class="${
+    completed ? 'item item-finished' : 'item'
+  }">
     <h2 class="item-title">${title}</h2>
     <p class="item-date">${formatDate(date)}</p>
   </div>`;
+}
+
+function setCompletedStatus(event) {
+  const { mojaVrijednost } = event.currentTarget.dataset;
+  toDoItems = toDoItems.map(item => {
+    if (item.id === mojaVrijednost) {
+      item.completed = !!!item.completed;
+      event.currentTarget.classList.toggle('item-finished');
+    }
+
+    return item;
+  });
 }
 
 function addItem() {
@@ -67,7 +81,9 @@ function addItem() {
     return;
   }
 
+  // Dodati ID
   const newToDo = {
+    id: '',
     title: value,
     completed: false,
     date: new Date()
