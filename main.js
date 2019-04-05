@@ -111,22 +111,49 @@ function setCompletedStatus(event) {
 
 function addItem() {
   const { value } = searchbarElement;
+  const toDoItems = getTodosFromLS();
 
   if (!value.length) {
     return;
   }
 
-  // Dodati ID
   const newToDo = {
-    id: '',
+    id: getId(),
     title: value,
     completed: false,
-    date: new Date()
+    date: new Date().setMonth(new Date().getMonth() + 3)
   };
 
-  listElement.innerHTML += renderToDoItem(newToDo);
-  renderTodoCards(toDoItems);
+  let updatedToDos = [...toDoItems, newToDo];
+  updatedToDos = updatedToDos.sort(sortByDateAsc);
+
+  renderTodoCards(updatedToDos);
+  setTodosInLS(updatedToDos);
   searchbarElement.value = '';
+}
+
+function getId() {
+  function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  }
+
+  // then to call it, plus stitch in '4' in the third group
+  guid = (
+    S4() +
+    S4() +
+    '-' +
+    S4() +
+    '-4' +
+    S4().substr(0, 3) +
+    '-' +
+    S4() +
+    '-' +
+    S4() +
+    S4() +
+    S4()
+  ).toLowerCase();
+
+  return guid;
 }
 
 function showFilteredByDate(isUpcoming) {
