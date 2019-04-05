@@ -1,4 +1,13 @@
-let listElement, searchbarElement, toDoItems;
+let listElement, searchbarElement;
+
+function getTodosFromLS() {
+  const items = localStorage.getItem('todos');
+  return JSON.parse(items);
+}
+
+function setTodosInLS(item) {
+  localStorage.setItem('todos', JSON.stringify(item));
+}
 
 function getJSON(filePath, callback) {
   listElement = document.getElementById('js-list');
@@ -7,6 +16,11 @@ function getJSON(filePath, callback) {
   fetch(filePath)
     .then(file => file.json())
     .then(json => {
+      const toDoItems = getTodosFromLS();
+      if (!toDoItems) {
+        setTodosInLS(json.todos);
+      }
+
       if (callback && typeof callback === 'function') {
         callback(json.todos);
       }
@@ -14,12 +28,8 @@ function getJSON(filePath, callback) {
     .catch(error => console.log(error));
 }
 
-function renderTodoCards(todos) {
-  if (!toDoItems) {
-    toDoItems = todos;
-  }
-
-  todos.sort(sortByDateAsc).forEach(item => {
+function renderTodoCards(toDoItems) {
+  toDoItems.sort(sortByDateAsc).forEach(item => {
     listElement.innerHTML += renderToDoItem(item);
   });
 }
@@ -48,6 +58,7 @@ function clearAllTodoCards() {
 
 function searchTodos() {
   const searchQuery = searchbarElement.value;
+  const toDoItems = getTodosFromLS();
 
   if (searchQuery.length > 3) {
     const filteredToDoItems = toDoItems.filter(todoItem =>
@@ -84,6 +95,8 @@ function renderToDoItem(todo) {
 
 function setCompletedStatus(event) {
   const { mojaVrijednost } = event.currentTarget.dataset;
+
+  let toDoItems = getTodosFromLS();
   toDoItems = toDoItems.map(item => {
     if (item.id === mojaVrijednost) {
       item.completed = !!!item.completed;
@@ -92,6 +105,8 @@ function setCompletedStatus(event) {
 
     return item;
   });
+
+  setTodosInLS(toDoItems);
 }
 
 function addItem() {
@@ -115,6 +130,7 @@ function addItem() {
 }
 
 function showFilteredByDate(isUpcoming) {
+  const toDoItems = getTodosFromLS();
   const filteredItems = toDoItems.filter(item => {
     const currentDateTime = new Date().getTime();
     const itemDate = new Date(item.date).getTime();
@@ -127,6 +143,7 @@ function showFilteredByDate(isUpcoming) {
 }
 
 function showFilteredByCompletion(isCompleted) {
+  const toDoItems = getTodosFromLS();
   const filteredItems = toDoItems.filter(item =>
     isCompleted ? item.completed : !item.completed
   );
@@ -136,12 +153,7 @@ function showFilteredByCompletion(isCompleted) {
 }
 
 function showAll() {
+  const toDoItems = getTodosFromLS();
   clearAllTodoCards();
   renderTodoCards(toDoItems);
-}
-
-function refilter(func) {
-  func();
-  clearAllTodoCards();
-  renderTodoCards(filteredItems);
 }
