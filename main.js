@@ -110,6 +110,7 @@ function addItem() {
   };
 
   listElement.innerHTML += renderToDoItem(newToDo);
+  renderTodoCards(toDoItems);
   searchbarElement.value = '';
 }
 
@@ -129,7 +130,7 @@ function showFilteredByCompletion(isCompleted) {
   const filteredItems = toDoItems.filter(item =>
     isCompleted ? item.completed : !item.completed
   );
-  
+
   clearAllTodoCards();
   renderTodoCards(filteredItems);
 }
