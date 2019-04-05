@@ -17,9 +17,27 @@ function getJSON(filePath, callback) {
 function renderTodoCards(todos) {
   toDoItems = todos;
 
-  todos.forEach(item => {
+  todos.sort(sortByDateAsc).forEach(item => {
     listElement.innerHTML += renderToDoItem(item);
   });
+}
+
+function sortByDateAsc(a, b) {
+  const first = new Date(a.date);
+  const second = new Date(b.date);
+
+  if (first && second) {
+    return first.getTime() - second.getTime();
+  }
+}
+
+function sortByDateDesc(a, b) {
+  const first = new Date(a.date);
+  const second = new Date(b.date);
+
+  if (first && second) {
+    return second.getTime() - first.getTime();
+  }
 }
 
 function clearAllTodoCards() {
