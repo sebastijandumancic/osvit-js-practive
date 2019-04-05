@@ -53,7 +53,7 @@ function filterTodoCards() {
     );
 
     clearAllTodoCards();
-    filteredToDoItems.forEach(item => {
+    filteredToDoItems.sort(sortByDateAsc).forEach(item => {
       listElement.innerHTML += renderToDoItem(item);
     });
 
