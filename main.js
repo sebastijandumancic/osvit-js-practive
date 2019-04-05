@@ -15,7 +15,9 @@ function getJSON(filePath, callback) {
 }
 
 function renderTodoCards(todos) {
-  toDoItems = todos;
+  if (!toDoItems) {
+    toDoItems = todos;
+  }
 
   todos.sort(sortByDateAsc).forEach(item => {
     listElement.innerHTML += renderToDoItem(item);
@@ -44,7 +46,7 @@ function clearAllTodoCards() {
   listElement.innerHTML = '';
 }
 
-function filterTodoCards() {
+function searchTodos() {
   const searchQuery = searchbarElement.value;
 
   if (searchQuery.length > 3) {
@@ -109,4 +111,21 @@ function addItem() {
 
   listElement.innerHTML += renderToDoItem(newToDo);
   searchbarElement.value = '';
+}
+
+function showFiltered(isUpcoming) {
+  const filteredItems = toDoItems.filter(item => {
+    const currentDateTime = new Date().getTime();
+    const itemDate = new Date(item.date).getTime();
+
+    return isUpcoming ? itemDate > currentDateTime : itemDate < currentDateTime;
+  });
+
+  clearAllTodoCards();
+  renderTodoCards(filteredItems);
+}
+
+function showAll() {
+  clearAllTodoCards();
+  renderTodoCards(toDoItems);
 }

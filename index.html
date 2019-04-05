@@ -21,13 +21,32 @@
       </header>
       <div class="new">
         <input
-          onchange="filterTodoCards()"
+          onchange="searchTodos()"
           id="js-searchbar"
           class="input"
           type="text"
         />
         <button onclick="addItem()" class="add" class="btn">Add</button>
       </div>
+      <nav>
+        <ul class="filter-list">
+          <li>
+            <button onclick="showFiltered(true);">Upcoming</button>
+          </li>
+          <li>
+            <button onclick="showAll();">All</button>
+          </li>
+          <li>
+            <button onclick="showFiltered(false);">Past</button>
+          </li>
+          <li>
+            <button>Completed</button>
+          </li>
+          <li>
+            <button>Pending</button>
+          </li>
+        </ul>
+      </nav>
       <div id="js-list" class="list"></div>
     </main>
   </body>

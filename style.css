@@ -59,3 +59,13 @@ body {
   flex: 1;
   font-size: 20px;
 }
+
+.filter-list {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.filter-list li {
+  list-style: none;
+}
