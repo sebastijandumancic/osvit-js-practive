@@ -113,7 +113,7 @@ function addItem() {
   searchbarElement.value = '';
 }
 
-function showFiltered(isUpcoming) {
+function showFilteredByDate(isUpcoming) {
   const filteredItems = toDoItems.filter(item => {
     const currentDateTime = new Date().getTime();
     const itemDate = new Date(item.date).getTime();
@@ -125,7 +125,22 @@ function showFiltered(isUpcoming) {
   renderTodoCards(filteredItems);
 }
 
+function showFilteredByCompletion(isCompleted) {
+  const filteredItems = toDoItems.filter(item =>
+    isCompleted ? item.completed : !item.completed
+  );
+  
+  clearAllTodoCards();
+  renderTodoCards(filteredItems);
+}
+
 function showAll() {
   clearAllTodoCards();
   renderTodoCards(toDoItems);
+}
+
+function refilter(func) {
+  func();
+  clearAllTodoCards();
+  renderTodoCards(filteredItems);
 }

@@ -31,19 +31,19 @@
       <nav>
         <ul class="filter-list">
           <li>
-            <button onclick="showFiltered(true);">Upcoming</button>
+            <button onclick="showFilteredByDate(true);">Upcoming</button>
           </li>
           <li>
             <button onclick="showAll();">All</button>
           </li>
           <li>
-            <button onclick="showFiltered(false);">Past</button>
+            <button onclick="showFilteredByDate(false);">Past</button>
           </li>
           <li>
-            <button>Completed</button>
+            <button onclick="showFilteredByCompletion(true);">Completed</button>
           </li>
           <li>
-            <button>Pending</button>
+            <button onclick="showFilteredByCompletion(false);">Pending</button>
           </li>
         </ul>
       </nav>
